@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Blog\App\Models\Post;
+
 
 class BlogController extends Controller
 {
@@ -14,7 +16,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return view('blog::index');
+        $blogs = Post::all();
+        return view('blog::index', compact('blogs'));
     }
 
     /**
@@ -30,7 +33,20 @@ class BlogController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $blog = new Post([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+
+        $blog->save();
+
+        return redirect()->route('blog.index')->with('success', 'Blog post created successfully!');
+    
     }
 
     /**
@@ -46,7 +62,13 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        return view('blog::edit');
+        $blog = Post::find($id);
+
+        if (!$blog) {
+            return redirect()->route('blogs.index')->with('error', 'Blog post not found!');
+        }
+
+        return view('blog::edit', compact('blog'));
     }
 
     /**
@@ -54,7 +76,24 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $blog = Post::find($id);
+
+        if (!$blog) {
+            return redirect()->route('blogs.index')->with('error', 'Blog post not found!');
+        }
+
+        $blog->update([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect()->route('blog.index')->with('success', 'Blog post updated successfully!');
+    
     }
 
     /**
@@ -62,6 +101,15 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $blog = Post::find($id);
+
+        if (!$blog) {
+            return redirect()->route('blog.index')->with('error', 'Blog post not found!');
+        }
+
+        $blog->delete();
+
+        return redirect()->route('blog.index')->with('success', 'Blog post deleted successfully!');
+    
     }
 }
