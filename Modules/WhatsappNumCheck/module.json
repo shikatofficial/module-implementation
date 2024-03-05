@@ -1,0 +1,11 @@
+{
+    "name": "WhatsappNumCheck",
+    "alias": "whatsappnumcheck",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\WhatsappNumCheck\\App\\Providers\\WhatsappNumCheckServiceProvider"
+    ],
+    "files": []
+}
