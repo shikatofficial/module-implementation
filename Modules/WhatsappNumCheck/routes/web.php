@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\WhatsappNumCheck\App\Http\Controllers\CsvController;
 use Modules\WhatsappNumCheck\App\Http\Controllers\WhatsappNumCheckController;
+use Modules\WhatsappNumCheck\App\Http\Controllers\WhatsAppCheckController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +20,7 @@ use Modules\WhatsappNumCheck\App\Http\Controllers\WhatsappNumCheckController;
 Route::group([], function () {
     Route::resource('whatsappnumcheck', WhatsappNumCheckController::class)->names('whatsappnumcheck');
     Route::resource('csv', CsvController::class)->names('csv');
+
+    Route::post('/csv/check-whatsapp', [WhatsAppCheckController::class, 'checkWhatsApp'])->name('csv.checkWhatsApp');
+
 });

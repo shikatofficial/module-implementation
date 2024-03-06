@@ -8,6 +8,7 @@
             <h2 class="my-5">WhatsApp CSV Data</h2>
 
             <a href="{{route('csv.create')}}" class="btn btn-primary my-3" >Add CSV</a>
+            <a href="{{route('csv.checkWhatsApp')}}" class="btn btn-success my-3" >Check WhatsApp</a>
 
           </form>
 
